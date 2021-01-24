@@ -17,7 +17,7 @@
 `// Android`  
 `// const userAgent = 'Mozilla/5.0 (Linux; Android 4.4.2; SH-01F Build/SA090) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36';`
 
-3.不要な画像を省きたいときは以下の部分にタグ名 or class名を入れる  
+3.不要な画像を省きたいときはquerySelectorにタグ名 or class名を入れる  
 `await page.evaluate(() => {document.querySelector('header').remove()});`
 
 4.以下のコマンドを実行  
