@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "puppeteer": "^5.5.0"
+  },
+  "volta": {
+    "node": "14.15.4"
   }
 }
