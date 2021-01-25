@@ -15,6 +15,25 @@ const userAgent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.
 // Android
 // const userAgent = 'Mozilla/5.0 (Linux; Android 4.4.2; SH-01F Build/SA090) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36';
 
+async function autoScroll(page){
+  await page.evaluate(async () => {
+    await new Promise((resolve) => {
+      let totalHeight = 0;
+      let distance = 100;
+      const timer = setInterval(() => {
+        const scrollHeight = document.body.scrollHeight;
+        window.scrollBy(0, distance);
+        totalHeight += distance;
+
+        if(totalHeight >= scrollHeight){
+          clearInterval(timer);
+          resolve();
+        }
+      }, 100);
+    });
+  });
+}
+
 (async () => {
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
@@ -25,12 +44,15 @@ const userAgent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.
     height: 800,
   });
   await page.goto(url);
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(3000);
+
+  // ページ下部までスクロール（lazy load対応）
+  await autoScroll(page);
 
   // 除去したい要素
   await page.evaluate(() => {
-    document.querySelector('header').remove()
-    document.querySelector('footer').remove()
+    // document.querySelector('header').remove();
+    // document.querySelector('footer').remove();
   });
   
   const images = await page.evaluate(() => 
